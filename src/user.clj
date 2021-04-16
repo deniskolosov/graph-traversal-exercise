@@ -51,7 +51,7 @@
       (if (> num-of-pairs n)
         (add-pairs vertices simplest-connected (- num-of-pairs n))
         simplest-connected))))
-;; filter from combinations those in pairs
+
 (comment
   (create-vertex-pairs 5 15))
 ;; => ((:0 :4) (:4 :2) (:2 :1) (:1 :3) (:3 :0) (:2 :3) (:0 :3) (:3 :1) (:3 :2) (:0 :2) (:0 :1) (:2 :0) (:1 :4) (:1 :0) (:4 :0))

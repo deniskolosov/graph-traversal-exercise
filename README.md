@@ -25,3 +25,6 @@ Run functions:
 (diameter random-graph) ; => maximal eccentricity
 ```
 
+Or just go to `src/user.clj` and run the repl.
+
+
