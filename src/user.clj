@@ -113,6 +113,7 @@
             ;; which is v
             new-pm (into {} (for [n to-explore]
                               [(first n) [(+ total (second n)) v]]))
+            ;; update priority queue -- remove explored 'best' vertex and update distances to vertices.
             q (merge-with (partial min-key first)
                            (pop q)
                            new-pm)]
