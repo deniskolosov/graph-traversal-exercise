@@ -68,7 +68,7 @@
     (into {} (reduce
               (fn [acc pair] (update acc (first pair) conj (list (second pair) (rand-int 10))))
               {}
-              (create-vertex-pairs n s))))) ;; create-vertex-pairs needs an extra edge
+              (create-vertex-pairs n s))))) 
 (comment
   (make-graph 3 4))
 ;; => {:1 ((:0 6)), :0 ((:1 0) (:2 8)), :2 ((:1 0))}
