@@ -94,6 +94,42 @@
 
 (comment
   (def random-graph' (make-graph 4 7)))
+;; {:0 ((:3 4) (:1 1)), :1 ((:3 9) (:2 8)), :2 ((:3 6)), :3 ((:1 9) (:0 4))}
+
+(defn shortest-paths
+  [g src]
+  (loop [explored {}
+         q (priority-map src [0])]
+    ;; If we exhausted our queue, return explored map with paths.
+    (if-let [[ v [total prev]] (peek q)]
+      ;; if we're still exploring, add previous node to the path, which is a vector of nodes to dest
+      (let [path (conj (explored prev []) v)
+            ;; and update explored with vertex and its' path
+            explored (assoc explored v path)
+            ;; update priority queue -- find neighbors of current vertex and remove all that we explored already
+            ;; (using map as predicate)
+            to-explore (remove (comp explored first) (g v))
+            ;; compute a map to update priority queue, it maps neighbor to vector of distance and previous vertex,
+            ;; which is v
+            new-pm (into {} (for [n to-explore]
+                              [(first n) [(+ total (second n)) v]]))
+            q (merge-with (partial min-key first)
+                           (pop q)
+                           new-pm)]
+        (recur explored q))
+      explored)))
+
+(defn shortest-path
+  [g src dest]
+  (dest (shortest-paths g src)))
+
+(comment
+  (shortest-path random-graph' :1 :0)
+  ;; => [:1 :3 :0]
+  )
+
+(into {} (for [n '( (:2 5) (:3 6))]
+           [(first n) [(+ 5 (second n)) :1]]))
 
 (defn get-distance
   "Return a function which takes a node and returns map
@@ -101,15 +137,16 @@
   [g]
   (fn [n] (apply hash-map (flatten (n g)))))
 
-(defn shortest-path
+(defn shortest-distance
   "Computes shortest part in graph from start src to finish dest."
   [g src dest]
   (dest (dijkstra src (get-distance g))))
 
 (comment
-  (shortest-path random-graph' :1 :2)
+  (shortest-distance random-graph' :1 :2)
   ;; => 8
   )
+
 
 (defn eccentricity
   "Computes eccentricity (distance between v and farthest vertice) of a graph g for vertice v"
@@ -123,7 +160,7 @@
                                (let [el (first vs)]
                                  (recur (remove #{el} vs)
                                         (conj distances
-                                              [el (shortest-path g v el)]))))))))))
+                                              [el (shortest-distance g v el)]))))))))))
 
 (comment
   (eccentricity random-graph' :1)
