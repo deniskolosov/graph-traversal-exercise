@@ -1,5 +1,12 @@
 Graph traversal exercise
 
+Clone the repo:
+
+`
+git clone https://github.com/deniskolosov/graph-traversal-exercise.git
+cd graph-traversal-exercise
+`
+
 Run lein (make sure it is installed):
 
 ```bash
