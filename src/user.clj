@@ -79,8 +79,6 @@
 (defn remove-keys [m pred]
   (select-keys m (filter (complement pred) (keys m))))
 
-(remove-keys {:1 2 :3 4} {:1 6})
-
 (defn dijkstra
   "Computes single-source shortest path distances in a directed graph.
 
