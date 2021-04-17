@@ -129,8 +129,6 @@
   ;; => [:1 :3 :0]
   )
 
-(into {} (for [n '( (:2 5) (:3 6))]
-           [(first n) [(+ 5 (second n)) :1]]))
 
 (defn get-distance
   "Return a function which takes a node and returns map
